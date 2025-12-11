@@ -1,0 +1,43 @@
+{
+  "patientName": {
+      "firstName": "J",
+      "lastName": "D"
+  },
+  "_id": "6839125d2fadaa50e2623f88",
+  "patientId": 203,
+  "legacyPatientId": "LEG123",
+  "emailId": "XYZ@abc.com",
+  "assignedMeasures": [
+      {
+          "measuringCadence": {
+              "frequencyTimes": 2,
+              "frequencyUnit": "Day"
+          },
+          "measureId": 100,
+          "measureName": "HEROO",
+          "_id": "6839125d2fadaa50e2623f89"
+      },
+      {
+          "measuringCadence": {
+              "frequencyTimes": 3,
+              "frequencyUnit": "Week"
+          },
+          "measureId": 200,
+          "measureName": "HEROO-2",
+          "_id": "6839125d2fadaa50e2623f8a"
+      },
+      {
+          "measuringCadence": {
+              "frequencyTimes": 3,
+              "frequencyUnit": "Month"
+          },
+          "measureId": 300,
+          "measureName": "HEROO-3",
+          "_id": "6839125d2fadaa50e2623f8b"
+      }
+  ],
+  "createdBy": "RY",
+  "createdAt": "2025-05-30T02:05:17.673Z",
+  "updatedAt": "2025-05-30T02:05:17.673Z",
+  "__v": 0
+}

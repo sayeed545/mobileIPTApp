@@ -1,0 +1,77 @@
+{
+    "_id": "683911ea2fadaa50e2623f72",
+    "measureId": 100,
+    "measureName": "HEROO",
+    "measureItems": [
+        {
+            "scale": {
+                "lowValue": 1,
+                "lowValueText": "Least",
+                "highValue": 10,
+                "highValueText": "Most",
+                "interval": 1
+            },
+            "measureItemId": 110,
+            "measureItemName": "Happy",
+            "measureItemStatus": "Active",
+            "_id": "683911ea2fadaa50e2623f73"
+        },
+        {
+            "scale": {
+                "lowValue": 1,
+                "lowValueText": "Least",
+                "highValue": 10,
+                "highValueText": "Most",
+                "interval": 1
+            },
+            "measureItemId": 120,
+            "measureItemName": "Enthusiastic",
+            "measureItemStatus": "Active",
+            "_id": "683911eb2fadaa50e2623f74"
+        },
+        {
+            "scale": {
+                "lowValue": 1,
+                "lowValueText": "Least",
+                "highValue": 10,
+                "highValueText": "Most",
+                "interval": 1
+            },
+            "measureItemId": 130,
+            "measureItemName": "Resilience",
+            "measureItemStatus": "Active",
+            "_id": "683911eb2fadaa50e2623f75"
+        },
+        {
+            "scale": {
+                "lowValue": 1,
+                "lowValueText": "Least",
+                "highValue": 10,
+                "highValueText": "Most",
+                "interval": 1
+            },
+            "measureItemId": 140,
+            "measureItemName": "Optimistic",
+            "measureItemStatus": "Active",
+            "_id": "683911eb2fadaa50e2623f76"
+        },
+        {
+            "scale": {
+                "lowValue": 1,
+                "lowValueText": "Least",
+                "highValue": 10,
+                "highValueText": "Most",
+                "interval": 1
+            },
+            "measureItemId": 150,
+            "measureItemName": "Overall Mental Wellness",
+            "measureItemStatus": "Active",
+            "_id": "683911eb2fadaa50e2623f77"
+        }
+    ],
+    "measureStatus": "Active",
+    "createdBy": "RY",
+    "createdAt": "2025-05-30T02:03:23.092Z",
+    "updatedAt": "2025-05-30T02:03:23.092Z",
+    "__v": 0
+}
