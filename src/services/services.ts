@@ -10,12 +10,12 @@ export const getMeasureItemData = async (id: number) => {
             const mockResponse = require('../JSON/measureList.json');
             return mockResponse
         }
-        const response = await baseURL.get(`/measures/${id}`)
+        const response = await baseURL.get(`/measures/secure/${id}`)
     return response.data;
 }
 export const postMeasureForm = async (data: any) => {
     console.log("post form data request:::::",data);
-    const response = await baseURL.post(`/patientFeedback`, data)
+    const response = await baseURL.post(`/secure/patientFeedback`, data)
     console.log("response22222:::::",response);
     return response.data
 }

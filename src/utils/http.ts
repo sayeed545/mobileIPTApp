@@ -17,10 +17,10 @@ const createAxiosInstance = (baseURL: string) => {
     instance.interceptors.request.use(async (config) => {
        
     // set access token from storage then use it to Authorization header
-    // const token = await AsyncStorage.getItem('ACCESSTOKEN')
-    // if(token && config.url !== '/SignIn'){
-    //     config.headers.Authorization =  `Bearer ${token}`;
-    // }
+    const token = await AsyncStorage.getItem('ACCESSTOKEN')
+    if(token && config.url !== '/userProfiles/secure/login'){
+        config.headers.Authorization =  `Bearer ${token}`;
+    }
     console.log("configure::::",config);
       return config;
     });

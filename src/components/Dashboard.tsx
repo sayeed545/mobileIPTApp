@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store/store";
 import { reset as resetUser} from '../redux/user.slice';
 import { Color } from "../theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import notifee from '@notifee/react-native';
 const  DEVICE_HEIGHT = Dimensions.get('window').height
 const  DEVICE_WIDTH = Dimensions.get('window').width
 
@@ -30,9 +31,10 @@ const Dashboard = () => {
         return;
       }
     Alert.alert('', 'Are you sure you want to logout!', [
-      { text: 'Yes', onPress: () =>  {
+      { text: 'Yes', onPress: async () =>  {
        // dispatch(resetUser());
         navigation.goBack();
+       // await notifee.cancelAllNotifications();
       }},
       { text: 'No', onPress: () => null },
     ]);
@@ -78,7 +80,7 @@ const Dashboard = () => {
           </View>
             <Image 
                             source={require('../images/iptlogo.png')}  
-                            resizeMode="center"
+                            resizeMode="contain"
                             style={{width: DEVICE_WIDTH-20, height: 220,marginBottom:20,alignSelf:'center' }}
                         />
             <View style={{margin:10,paddingBottom:15}}>

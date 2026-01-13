@@ -76,7 +76,7 @@ export default function CustomSlider(props: any) {
       /> */}
       <Slider
       key={props.item._id}
-          style={{width: '90%', height: 40,justifyContent:'center',alignSelf:'center'}}
+          style={{width: '90%', height: 50,justifyContent:'center',alignSelf:'center'}}
           minimumValue={props.item.scale.lowValue}
           maximumValue={props.item.scale.highValue}
           step={props.item.scale.interval}

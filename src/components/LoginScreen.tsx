@@ -1,5 +1,5 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Dimensions, Alert, Button, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ScrollView, Image, StatusBar, PermissionsAndroid } from "react-native";
+import { ActivityIndicator, Dimensions, Alert, Button, ImageBackground, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, ScrollView, Image, StatusBar } from "react-native";
 import {useNavigation} from '@react-navigation/native';
 const  DEVICE_HEIGHT = Dimensions.get('window').height
 const  DEVICE_WIDTH = Dimensions.get('window').width
@@ -8,13 +8,26 @@ import { AppDispatch, RootState, useAppDispatch, useAppSelector } from "../redux
 import { loginDetails, updateLoginDetails } from "../redux/user.action";
 import { Color } from "../theme";
 
-import PushNotification, { Importance } from 'react-native-push-notification';
+
+import {
+  isValidTime,
+  Weekday,
+} from '../utils/timeUtils';
+import { scheduleWeeklyReminder } from "../services/notificationService";
+import { decodeTokenManual } from "../utils/commonUtils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+type AssignedMeasure = {
+  reminderDays: Weekday[];
+  reminderHours: string[];
+  reminderMessage: string;
+};
 
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
-  const [username, setUsernameText] = useState<string>("");
-  const [password, setPasswordText] = useState<string>("");
+  const [username, setUsernameText] = useState<string>("yejellar@gmail.com");
+  const [password, setPasswordText] = useState<string>("leg123");
   //const emailRegex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i;
   const userDetails = useSelector((state: RootState) => state.user.details);
   const dispatch = useAppDispatch();
@@ -46,35 +59,28 @@ const LoginScreen = () => {
   //     Alert.alert('Error', 'Failed to fetch data. Please try again.');
   //   }
   // }
+  async function scheduleNotificationAt(assignedMeasures: AssignedMeasure[]) {
+  for (const measure of assignedMeasures) {
+    const { reminderDays, reminderHours, reminderMessage } = measure;
 
+    for (const weekday of reminderDays) {
+      for (const time of reminderHours) {
+        await scheduleWeeklyReminder(
+          weekday,
+          time,
+          'Reminder ⏰',
+          reminderMessage
+        );
+      }
+    }
+  }
+}
+
+
+
+  
   useEffect( () => {
-    // checkLogin();
-    // if(userDetails && userDetails.patientId )
-    //   {
-    //     navigation.navigate('Home')
-    //   }
-    PermissionsAndroid.request(
-  PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
-);
-    PushNotification.createChannel(
-  {
-    channelId: "reminders",
-    channelName: "Reminders",
-    importance: 4,
-    vibrate: true,
-  },
-  (created: any) => console.log("Channel created:", created)
-);
-// setTimeout(() => {
-//  console.log("Scheduling notification...");
-
-//     PushNotification.localNotificationSchedule({
-//       channelId: "reminders",
-//       message: "Testing...",
-//       date: new Date(Date.now() + 3000),
-//     });
-// }, 2000);
-    
+  
   }, [])
   const onChangeUsernameText = (text: string) => {
     setUsernameText(text);
@@ -107,10 +113,19 @@ const LoginScreen = () => {
         "userType":"Mobile",
         "password":password
     };
+    console.log("call Login API::::",);
       const eDetails = await dispatch(loginDetails(params));
-      console.log("loginDetails::::",eDetails.payload);
+      console.log("loginDetails::::",eDetails.payload.token);
       if (eDetails.payload) {
-        await dispatch(updateLoginDetails(eDetails.payload));
+        const myToken = eDetails.payload.token;
+         await AsyncStorage.setItem("ACCESSTOKEN", myToken);
+        const decodedItem = decodeTokenManual(myToken)
+        console.log("decodedItem:::::::",decodedItem);
+        console.log("assignedMeasuresassignedMeasures:::::::",decodedItem.assignedMeasures);
+        await dispatch(updateLoginDetails(decodedItem));
+        
+        await scheduleNotificationAt(decodedItem.assignedMeasures);
+        setPasswordText("");
         navigation.navigate('Home')
       }
       else
@@ -120,17 +135,6 @@ const LoginScreen = () => {
     }
    
     
-  };
-  const scheduleNotification = () => {
-    console.log("Triggering local notification...");
-
-    PushNotification.localNotificationSchedule({
-      channelId: "reminders",
-      message: "This is a test notification",
-      date: new Date(Date.now() + 5 * 1000),
-      allowWhileIdle: false,
-      exact: false,
-    });
   };
     return (
       <ImageBackground
@@ -154,7 +158,7 @@ const LoginScreen = () => {
             </Text> */}
              <Image 
                 source={require('../images/iptlogo.png')}  
-                resizeMode="center"
+                resizeMode="contain"
                 style={{width: DEVICE_WIDTH-20, height: 220,marginBottom:20 }}
             />
             {/* <Text style={styles.subTitle}>
@@ -168,6 +172,7 @@ const LoginScreen = () => {
                 <TextInput style={{backgroundColor:'#fff',marginTop:10,borderColor:'lightgray',borderWidth:1,height:44,fontSize:18,paddingLeft:5,borderRadius:5}}
                     placeholder='Enter username'
                     value={username}
+                    keyboardType="email-address"
                     //maxLength={5}
                     onChangeText={onChangeUsernameText}
                     autoCorrect={false}
@@ -182,7 +187,6 @@ const LoginScreen = () => {
                 />
             </View>
            <View style={{marginBottom:10}}>
-             <Button title="Schedule Notification" onPress={scheduleNotification} />
            <TouchableOpacity onPress={onDonePressed} 
            style={{backgroundColor:'#36648F',width:'60%',height:50,alignItems:'center',justifyContent:'center',alignSelf:'center',borderRadius:5,marginBottom:10}}>
               <Text style={{color:'#fff',fontSize:22,fontWeight:600}}>Login</Text>

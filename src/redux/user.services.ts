@@ -10,7 +10,7 @@ export const getEmployeeLoginDetails = async (data: any) => {
         const mockResponse = require('../JSON/userLogin.json');
         return mockResponse
     }
-    const response = await baseURL.put(`/userProfiles/login`, data)
+    const response = await baseURL.put(`/userProfiles/secure/login`, data)
     console.log("response Login:::::",response);
     return response.data
 }
